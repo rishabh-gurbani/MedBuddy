@@ -1,8 +1,9 @@
 from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-from bson.objectid import ObjectId
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-uri = "mongodb+srv://rishabh:Rishabhg23@cluster0.euucdu8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+mongo_uri = os.getenv("MONGO_URI")
 
 '''
 FN -> fetch_documents
@@ -36,7 +37,7 @@ possible error codes:
 
 def insert_document(database_name, collection_name, document):
     try:
-        client = MongoClient("mongodb+srv://rishabh:Rishabhg23@cluster0.euucdu8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        client = MongoClient(mongo_uri)
         db = client[database_name]
         collection = db[collection_name]
         id =collection.insert_one(document).inserted_id
@@ -49,7 +50,7 @@ def insert_document(database_name, collection_name, document):
 
 def fetch_documents(database_name, collection_name, query):
     try:
-        client = MongoClient("mongodb+srv://rishabh:Rishabhg23@cluster0.euucdu8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        client = MongoClient(mongo_uri)
         db = client[database_name]
         collection = db[collection_name]
         documents = list(collection.find(query))
@@ -60,7 +61,7 @@ def fetch_documents(database_name, collection_name, query):
 
 def delete_collection(database_name, collection_name):
     try:
-        client = MongoClient("mongodb+srv://rishabh:Rishabhg23@cluster0.euucdu8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        client = MongoClient(mongo_uri)
         db = client[database_name]
         collection = db[collection_name]
         collection.drop()
@@ -70,7 +71,7 @@ def delete_collection(database_name, collection_name):
 
 def delete_document(db, collection, query):
     try:
-        client = MongoClient("mongodb+srv://rishabh:Rishabhg23@cluster0.euucdu8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        client = MongoClient(mongo_uri)
         db = client[db]
         collection = db[collection]
         collection.delete_one(query)
@@ -81,7 +82,7 @@ def delete_document(db, collection, query):
 
 def update_document(database_name, collection_name, id_field, id_value, field_to_update, value_to_update):
     try:
-        client = MongoClient("mongodb+srv://rishabh:Rishabhg23@cluster0.euucdu8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        client = MongoClient(mongo_uri)
         db = client[database_name]
         collection = db[collection_name]
         query = {id_field : id_value}
@@ -95,7 +96,7 @@ def replace_document(database_name, collection_name, doc_id, new_document):
     try:
         new_document['_id'] = doc_id
 
-        client = MongoClient("mongodb+srv://rishabh:Rishabhg23@cluster0.euucdu8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        client = MongoClient(mongo_uri)
         db = client[database_name]
         collection = db[collection_name]
 
